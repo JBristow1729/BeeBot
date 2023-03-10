@@ -1,20 +1,23 @@
 package com.bristow.beebot;
 
+import com.bristow.beebot.config.Config;
+import com.bristow.beebot.listeners.EventHandler;
+import com.bristow.beebot.listeners.SlashCommands;
+
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import okhttp3.EventListener;
 
-public class App extends EventListener
+public class App
 {
     public static void main( String[] args )
     throws InterruptedException
     {
-        // Note: It is important to register your ReadyListener before building
-        JDA jda = JDABuilder.createDefault("token")
-            .addEventListeners(new ReadyListener())
-            .build();
+        // The bot token
+        String TOKEN = new Config().getToken();
 
-        // optionally block until JDA is ready
-        jda.awaitReady();
+        // Instantiate the JDA object and build it
+        JDA jda = JDABuilder.createDefault(TOKEN)
+            .addEventListeners(new EventHandler(), new SlashCommands())
+            .build();
     }
 }
